@@ -85,7 +85,7 @@ GPU="nvidia"
 
 #Defines the additional packages to install (such as useful packages for the system, Desktop environment, display manager, etc... Don't forget to modify the "systemctl enable" part depending on your choices.
 PACKAGES() {
-	pacman -S --noconfirm --needed networkmanager vim base-devel linux-headers bash-completion xorg xfce4 xfce4-goodies lxdm firefox > /dev/null 2>&1 && systemctl enable NetworkManager > /dev/null 2>&1 && systemctl enable lxdm > /dev/null 2>&1
+	pacman -S --noconfirm --needed networkmanager vim base-devel linux-headers bash-completion xorg xfce4 xfce4-goodies lightdm firefox > /dev/null 2>&1 && systemctl enable NetworkManager > /dev/null 2>&1 && systemctl enable lxdm > /dev/null 2>&1
 }
 
 #################################################################################################################
