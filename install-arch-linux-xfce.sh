@@ -75,7 +75,7 @@ ROOT_PWD="X6sWkd2Xco"
 USER_NAME="jojo"
 
 #Defines the password of your user.
-USER_PWD="luckynena19"
+USER_PWD="X6sWkd2Xco"
 
 #Defines the CPU driver to install. You can choose between "intel-ucode" (for Intel CPU) or "amd-ucode" (for AMD CPU).
 CPU="intel-ucode"
