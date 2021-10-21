@@ -40,6 +40,8 @@ echo "  mkfs.fat -F32 /dev/sda1"
 echo "  mkwap  /dev/sda2"
 echo "  swapon /dev/sda2"
 echo "  mkfs.ext4 /dev/sda3"
+echo ""
+echo ""
 #################################################################################################################
 
 ##Definition of variables##
