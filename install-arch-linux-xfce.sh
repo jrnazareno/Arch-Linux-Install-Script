@@ -69,13 +69,13 @@ KEYMAP="us"
 HOSTNAME="Arch-Linux"
 
 #Defines the password for the root user.
-ROOT_PWD="X6sWkd2Xco"
+ROOT_PWD="groot()"
 
 #Defines the username of your user.
 USER_NAME="jojo"
 
 #Defines the password of your user.
-USER_PWD="X6sWkd2Xco"
+USER_PWD="jojo"
 
 #Defines the CPU driver to install. You can choose between "intel-ucode" (for Intel CPU) or "amd-ucode" (for AMD CPU).
 CPU="intel-ucode"
