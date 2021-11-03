@@ -41,7 +41,7 @@ echo "  mkwap  /dev/sda2"
 echo "  swapon /dev/sda2"
 echo "  mkfs.ext4 /dev/sda3"
 echo ""
-echo ""
+echo " 2021-11-03 : cloned github repo to local"
 #################################################################################################################
 
 ##Definition of variables##
