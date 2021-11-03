@@ -69,7 +69,7 @@ KEYMAP="us"
 HOSTNAME="Arch-Linux"
 
 #Defines the password for the root user.
-ROOT_PWD="3141592654j"
+ROOT_PWD="p@ssw0rd()"
 
 #Defines the username of your user.
 USER_NAME="jojo"
