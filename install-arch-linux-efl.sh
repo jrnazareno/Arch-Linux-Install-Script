@@ -69,7 +69,7 @@ KEYMAP="us"
 HOSTNAME="Arch-Linux"
 
 #Defines the password for the root user.
-ROOT_PWD="groot()"
+ROOT_PWD="p@ssw0rd()"
 
 #Defines the username of your user.
 USER_NAME="jojo"
@@ -81,7 +81,7 @@ USER_PWD="jojo"
 CPU="intel-ucode"
 
 #Defines the GPU driver to install. You can choose between "nvidia" (for Nvidia GPU and Linux kernel), "nvidia-lts" (for Nvidia GPU and Linux-lts kernel) or "mesa" (for AMD GPU or Intel graphics).
-GPU="nvidia"
+GPU="mesa"
 
 #Defines the additional packages to install (such as useful packages for the system, Desktop environment, display manager, etc... Don't forget to modify the "systemctl enable" part depending on your choices.
 PACKAGES() {
