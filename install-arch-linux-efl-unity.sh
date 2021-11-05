@@ -85,7 +85,7 @@ GPU="mesa"
 
 #Defines the additional packages to install (such as useful packages for the system, Desktop environment, display manager, etc... Don't forget to modify the "systemctl enable" part depending on your choices.
 PACKAGES() {
-	pacman -S --noconfirm --needed networkmanager vim base-devel linux-headers bash-completion xorg efl enlightenment lightdm lightdm-unity-greeter firefox > /dev/null 2>&1 && systemctl enable NetworkManager > /dev/null 2>&1 && systemctl enable lightdm > /dev/null 2>&1
+	pacman -S --noconfirm --needed networkmanager vim base-devel linux-headers bash-completion xorg efl enlightenment lightdm lightdm-gtk-greeter firefox > /dev/null 2>&1 && systemctl enable NetworkManager > /dev/null 2>&1 && systemctl enable lightdm > /dev/null 2>&1
 }
 
 #################################################################################################################
@@ -143,5 +143,5 @@ echo "Installation complete"
 echo ""
 echo "Welcome to Arch-Linux :)"
 echo ""
-echo "The computer will reboot in a few seconds"
+echo "The computer will reboot in a few seconds"	
 sleep 10 && reboot
