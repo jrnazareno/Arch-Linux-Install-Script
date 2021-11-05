@@ -81,7 +81,7 @@ GPU="mesa"
 
 #Defines the additional packages to install (such as useful packages for the system, Desktop environment, display manager, etc... Don't forget to modify the "systemctl enable" part depending on your choices.
 PACKAGES() {
-	pacman -S --noconfirm --needed networkmanager vim base-devel linux-headers bash-completion xorg budgie-desktop gnome  > /dev/null 2>&1 && systemctl enable NetworkManager > /dev/null 2>&1 && systemctl enable gdm > /dev/null 2>&1
+	pacman -S --noconfirm --needed networkmanager network-manager-applet dialog wireless_tools wpa_supplicant vim base-devel linux-headers bash-completion xorg budgie-desktop gnome  > /dev/null 2>&1 && systemctl enable NetworkManager > /dev/null 2>&1 && systemctl enable gdm > /dev/null 2>&1
 }
 
 #################################################################################################################
@@ -95,17 +95,22 @@ timedatectl set-ntp true && echo "NTP configured" || exit 1
 #Mount Root partition
 mount $ROOT_PART /mnt && echo "Root partition \"$ROOT_PART\" correctly mounted" || exit 1
 
-#Install Linux Kernel and base system
+#INSTALL ESSENTIAL PACKAGES (base package, Linux kernel, and firmware)
 echo "Installing \"$KERNEL\" kernel and base system. This might take a few minutes..." && pacstrap /mnt base $KERNEL linux-firmware > /dev/null && echo "Linux kernel and base system installed" || exit 1
 
-#Generating FSTAB
+#CONFIGURE THE SYSTEM
+
+#Generate an fstab file (use -U or -L to define by UUID or labels, respectively)
 genfstab -U /mnt >> /mnt/etc/fstab && echo "FSTAB generated" || exit 1
 
-#Set localtime
+#Set local Time Zone  &  Synchronize hardware clock to system clock
 export TIMEZONE=$TIMEZONE && arch-chroot /mnt bash -c 'ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && hwclock --systohc' && echo "Timezone \"$TIMEZONE\" configured" || exit 1
 
-#Set Language
+#Localization (language, keymap)
 export LANGUAGE=$LANGUAGE && export KEYMAP=$KEYMAP && arch-chroot /mnt bash -c 'sed -i "s/#$LANGUAGE UTF-8/$LANGUAGE UTF-8/" /etc/locale.gen && locale-gen > /dev/null && echo "LANG=$LANGUAGE" > /etc/locale.conf && echo "KEYMAP=$KEYMAP" > /etc/vconsole.conf' && echo "Language \"$LANGUAGE\" configured" || exit 1
+
+
+#NETWORK CONFIGURATION
 
 #Set Hostname
 export HOSTNAME=$HOSTNAME && arch-chroot /mnt bash -c 'echo "$HOSTNAME" > /etc/hostname && echo -e "\n127.0.0.1       localhost\n::1             localhost\n127.0.1.1       $HOSTNAME.localdomain $HOSTNAME" >> /etc/hosts' && echo "Hostname \"$HOSTNAME\" configured" || exit 1
@@ -120,7 +125,7 @@ export USER_NAME=$USER_NAME && export USER_PWD=$USER_PWD && arch-chroot /mnt bas
 arch-chroot /mnt bash -c 'pacman -S --noconfirm sudo > /dev/null && sed -i "s/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers' && echo "Sudo installed and configured" || exit 1
 
 #Install and configure GRUB
-export BOOT_PART=$BOOT_PART && echo "Installing and configuring GRUB. This might take a few minutes..." && arch-chroot /mnt bash -c 'pacman -S --noconfirm grub efibootmgr dosfstools mtools > /dev/null && mkdir /boot/EFI && mount $BOOT_PART /boot/EFI && grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck > /dev/null 2>&1 && grub-mkconfig -o /boot/grub/grub.cfg > /dev/null 2>&1' && echo "GRUB installed and configured on boot partition \"$BOOT_PART\"" || exit 1
+export BOOT_PART=$BOOT_PART && echo "Installing and configuring GRUB. This might take a few minutes..." && arch-chroot /mnt bash -c 'pacman -S --noconfirm grub efibootmgr os-prober dosfstools mtools > /dev/null && mkdir /mnt/boot && mount $BOOT_PART /mnt/boot && grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub_uefi --recheck > /dev/null 2>&1 && grub-mkconfig -o /boot/grub/grub.cfg > /dev/null 2>&1' && echo "GRUB installed and configured on boot partition \"$BOOT_PART\"" || exit 1
 
 #Install necessary/useful packages for the base of the system + Desktop environment (and eventually Display Manager)
 export CPU=$CPU && export GPU=$GPU && export -f PACKAGES && echo "Installing necessary and additional packages, drivers and desktop environment. This might take a few minutes..." && arch-chroot /mnt bash -c 'pacman -S --noconfirm $CPU $GPU > /dev/null 2>&1 && PACKAGES' && echo "Packages installed" || exit 1
