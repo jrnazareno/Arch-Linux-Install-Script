@@ -81,7 +81,7 @@ GPU="mesa"
 
 #Defines the additional packages to install (such as useful packages for the system, Desktop environment, display manager, etc... Don't forget to modify the "systemctl enable" part depending on your choices.
 PACKAGES() {
-	pacman -S --noconfirm --needed networkmanager vim base-devel linux-headers bash-completion xorg plasma sddm firefox terminology  > /dev/null 2>&1 && systemctl enable NetworkManager > /dev/null 2>&1 && systemctl enable sddm > /dev/null 2>&1
+	pacman -S --noconfirm --needed networkmanager vim base-devel linux-headers bash-completion xorg lxqt sddm > /dev/null 2>&1 && systemctl enable NetworkManager > /dev/null 2>&1 && systemctl enable sddm > /dev/null 2>&1
 }
 
 #################################################################################################################
@@ -120,7 +120,7 @@ export USER_NAME=$USER_NAME && export USER_PWD=$USER_PWD && arch-chroot /mnt bas
 arch-chroot /mnt bash -c 'pacman -S --noconfirm sudo > /dev/null && sed -i "s/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers' && echo "Sudo installed and configured" || exit 1
 
 #Install and configure GRUB
-export BOOT_PART=$BOOT_PART && echo "Installing and configuring GRUB. This might take a few minutes..." && arch-chroot /mnt bash -c 'pacman -S --noconfirm grub efibootmgr dosfstools mtools > /dev/null && mkdir /boot/EFI && mount $BOOT_PART /boot/EFI && grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck > /dev/null 2>&1 && grub-mkconfig -o /boot/grub/grub.cfg > /dev/null 2>&1' && echo "GRUB installed and configured on boot partition \"$BOOT_PART\"" || exit 1
+export BOOT_PART=$BOOT_PART && echo "Installing and configuring GRUB. This might take a few minutes..." && arch-chroot /mnt bash -c 'pacman -S --noconfirm grub efibootmgr dosfstools mtools > /dev/null && mkdir /boot/EFI && mount $BOOT_PART /boot/EFI && grub-install --target=x86_64-efi --bootloader-id=grub_uefi --efi-directory=/boot/EFI --recheck > /dev/null 2>&1 && grub-mkconfig -o /boot/grub/grub.cfg > /dev/null 2>&1' && echo "GRUB installed and configured on boot partition \"$BOOT_PART\"" || exit 1
 
 #Install necessary/useful packages for the base of the system + Desktop environment (and eventually Display Manager)
 export CPU=$CPU && export GPU=$GPU && export -f PACKAGES && echo "Installing necessary and additional packages, drivers and desktop environment. This might take a few minutes..." && arch-chroot /mnt bash -c 'pacman -S --noconfirm $CPU $GPU > /dev/null 2>&1 && PACKAGES' && echo "Packages installed" || exit 1
