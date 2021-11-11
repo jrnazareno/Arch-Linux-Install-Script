@@ -14,13 +14,6 @@ echo "It may be handled in the future, if I find a good implementation for that 
 echo "For now, you'll need to create your own partitions AND filesystems BEFORE using this script (refer to the guide linked down below)"
 echo "Also, keep in mind that this script is meant to install Arch-Linux on a UEFI/EFI system"
 echo ""
-echo "A complete and easy guide to edit and use this script is available on the following link :"
-echo "https://github.com/Antiz96/Arch-Linux-Install-Script"
-echo ""
-echo "My Github : https://github.com/Antiz96"
-echo "My Linkedin : https://www.linkedin.com/in/robin-candau-3083a2173/"
-echo "My Website : https://rc-linux.com"
-echo ""
 read -n 1 -r -s -p $'Press \"enter\" to continue or \"ctrl + c\" to abort\n'
 echo ""
 echo ""

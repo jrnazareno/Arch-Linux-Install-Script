@@ -5,23 +5,6 @@
 echo "Welcome to the Arch Linux Installer Script originally made by Robin Candau"
 echo "and modified by Jojo Nazareno"
 echo ""
-echo "Original instructions from Robin Candau"
-echo "Don't forget to adapt it to your needs and preferences before using it (refer to the guide linked down below) !"
-echo ""
-echo "An internet connection is needed to use this script (which is required to install Arch Linux anyway)"
-echo ""
-echo "/!\ WARNING /!\\"
-echo "Disk partitioning is NOT currently handled by this script"
-echo "It may be handled in the future, if I find a good implementation for that feature"
-echo "For now, you'll need to create your own partitions AND filesystems BEFORE using this script (refer to the guide linked down below)"
-echo "Also, keep in mind that this script is meant to install Arch-Linux on a UEFI/EFI system"
-echo ""
-echo "A complete and easy guide to edit and use this script is available on the following link :"
-echo "https://github.com/Antiz96/Arch-Linux-Install-Script"
-echo ""
-echo "My Github : https://github.com/Antiz96"
-echo "My Linkedin : https://www.linkedin.com/in/robin-candau-3083a2173/"
-echo "My Website : https://rc-linux.com"
 echo ""
 read -n 1 -r -s -p $'Press \"enter\" to continue or \"ctrl + c\" to abort\n'
 echo ""
@@ -85,7 +68,7 @@ GPU="mesa"
 
 #Defines the additional packages to install (such as useful packages for the system, Desktop environment, display manager, etc... Don't forget to modify the "systemctl enable" part depending on your choices.
 PACKAGES() {
-	pacman -S --noconfirm --needed networkmanager vim base-devel linux-headers bash-completion xorg efl enlightenment lightdm lightdm-gtk-greeter firefox > /dev/null 2>&1 && systemctl enable NetworkManager > /dev/null 2>&1 && systemctl enable lightdm > /dev/null 2>&1
+	pacman -S --noconfirm --needed networkmanager vim base-devel linux-headers bash-completion xorg efl enlightenment terminology firefox > /dev/null 2>&1 && systemctl enable NetworkManager > /dev/null 2>&1 
 }
 
 #################################################################################################################
@@ -124,7 +107,7 @@ export USER_NAME=$USER_NAME && export USER_PWD=$USER_PWD && arch-chroot /mnt bas
 arch-chroot /mnt bash -c 'pacman -S --noconfirm sudo > /dev/null && sed -i "s/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers' && echo "Sudo installed and configured" || exit 1
 
 #Install and configure GRUB
-export BOOT_PART=$BOOT_PART && echo "Installing and configuring GRUB. This might take a few minutes..." && arch-chroot /mnt bash -c 'pacman -S --noconfirm grub efibootmgr dosfstools mtools > /dev/null && mkdir /boot/EFI && mount $BOOT_PART /boot/EFI && grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck > /dev/null 2>&1 && grub-mkconfig -o /boot/grub/grub.cfg > /dev/null 2>&1' && echo "GRUB installed and configured on boot partition \"$BOOT_PART\"" || exit 1
+export BOOT_PART=$BOOT_PART && echo "Installing and configuring GRUB. This might take a few minutes..." && arch-chroot /mnt bash -c 'pacman -S --noconfirm grub efibootmgr dosfstools mtools > /dev/null && mkdir /boot/EFI && mount $BOOT_PART /boot/EFI && grub-install --target=x86_64-efi --bootloader-id=grub_uefi --efi-directory=/boot/EFI --recheck > /dev/null 2>&1 && grub-mkconfig -o /boot/grub/grub.cfg > /dev/null 2>&1' && echo "GRUB installed and configured on boot partition \"$BOOT_PART\"" || exit 1
 
 #Install necessary/useful packages for the base of the system + Desktop environment (and eventually Display Manager)
 export CPU=$CPU && export GPU=$GPU && export -f PACKAGES && echo "Installing necessary and additional packages, drivers and desktop environment. This might take a few minutes..." && arch-chroot /mnt bash -c 'pacman -S --noconfirm $CPU $GPU > /dev/null 2>&1 && PACKAGES' && echo "Packages installed" || exit 1
